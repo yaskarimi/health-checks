@@ -1,6 +1,8 @@
 #!/usr/bin/env python3 
 
 import os
+import sys 
+
 
 def check_reboot():
   return os.path.exists("/run/reboot-required")
@@ -15,13 +17,18 @@ def check_disk_full(disk, min_gb , min_percent):
    return True
   return False
 
+def check_root_full():
+  return check_disk_full(disk = "/" , min_gb = 1 , min_percent =10)
+
+
 def main():
    if check_reboot():
-	print("pending Reboot.")
-	sys.exit(1)
-   if check_disk_full(disk="/" , min_gb = 2 ,min_percent = 10):
-	print("disk full")
-	sys.exit(1)
+     print("pending Reboot.")
+     sys.exit(1)
+   if check_root__full():
+     print("root partition full")
+     sys.exit(1)
    print("Everything ok")
    sys.exit(0)
 
+main()
